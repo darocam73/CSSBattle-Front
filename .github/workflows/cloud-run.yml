@@ -34,14 +34,6 @@ jobs:
       run: |-
         gcloud auth configure-docker
 
-    # Build and push image to Google Container Registry
-    # - name: Build
-    #   run: |-
-    #     gcloud builds submit \
-    #       --quiet \
-    #       --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
-    #       --substitutions="REACT_APP_HOST_URL=$REACT_APP_HOST_URL,REACT_APP_IMAGES_URL=$REACT_APP_IMAGES_URL,REACT_APP_SOCKET_HOST=$REACT_APP_SOCKET_HOST"
-
     - name: Build
       run: |-
         docker build -t "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
@@ -53,13 +45,11 @@ jobs:
       run: |-
         docker push "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
 
-
-    # Deploy to google run
-    # - name: Deploy
-    #   run: |-
-    #     gcloud run deploy "$SERVICE_NAME" \
-    #       --platform managed \
-    #       --region "$RUN_REGION" \
-    #       --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
-    #       --project "$PROJECT_ID" \
-    #       --allow-unauthenticated
+    - name: Deploy
+      run: |-
+        gcloud run deploy "$SERVICE_NAME" \
+          --platform managed \
+          --region "$RUN_REGION" \
+          --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
+          --project "$PROJECT_ID" \
+          --allow-unauthenticated
