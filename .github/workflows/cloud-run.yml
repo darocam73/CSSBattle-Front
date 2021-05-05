@@ -1,0 +1,51 @@
+name: Build and Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+    - master
+
+env:
+  PROJECT_ID: ${{ secrets.RUN_PROJECT }}
+  GCP_SA_KEY: ${{ secrets.RUN_SA_KEY }}
+  RUN_REGION: us-central1
+  SERVICE_NAME: cssbattle-front
+  REACT_APP_HOST_URL: ${{ secrets.HOST_URL }}
+  REACT_APP_IMAGES_URL: ${{ secrets.IMAGES_URL }}
+  REACT_APP_SOCKET_HOST: ${{ secrets.SOCKET_HOST }}
+
+jobs:
+  setup-build-deploy:
+    name: Setup, Build, and Deploy to Cloud Run
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - uses: google-github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ secrets.RUN_PROJECT }}
+        service_account_key: ${{ secrets.RUN_SA_KEY }}
+        export_default_credentials: true
+
+    # Build and push image to Google Container Registry
+    - name: Build
+      run: |-
+        gcloud builds submit \
+          --quiet \
+          --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
+
+    # Deploy to google run
+    - name: Deploy
+      run: |-
+        gcloud run deploy "$SERVICE_NAME" \
+          --platform managed \
+          --region "$RUN_REGION" \
+          --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
+          --project "$PROJECT_ID" \
+          --allow-unauthenticated \
+          --set-env-vars " \
+            REACT_APP_HOST_URL=$REACT_APP_HOST_URL, \
+            REACT_APP_IMAGES_URL=$REACT_APP_IMAGES_URL, \
+            REACT_APP_SOCKET_HOST=REACT_APP_SOCKET_HOST"
