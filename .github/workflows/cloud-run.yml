@@ -35,11 +35,8 @@ jobs:
       run: |-
         gcloud builds submit \
           --quiet \
-          --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
-          --substitutions=TAG_NAME=" \
-            REACT_APP_HOST_URL=$REACT_APP_HOST_URL, \
-            REACT_APP_IMAGES_URL=$REACT_APP_IMAGES_URL, \
-            REACT_APP_SOCKET_HOST=REACT_APP_SOCKET_HOST"
+          --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
+          --substitutions="REACT_APP_HOST_URL=$REACT_APP_HOST_URL,REACT_APP_IMAGES_URL=$REACT_APP_IMAGES_URL,REACT_APP_SOCKET_HOST=$REACT_APP_SOCKET_HOST"
 
     # Deploy to google run
     - name: Deploy
@@ -49,8 +46,4 @@ jobs:
           --region "$RUN_REGION" \
           --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
           --project "$PROJECT_ID" \
-          --allow-unauthenticated \
-          --set-env-vars " \
-            REACT_APP_HOST_URL=$REACT_APP_HOST_URL, \
-            REACT_APP_IMAGES_URL=$REACT_APP_IMAGES_URL, \
-            REACT_APP_SOCKET_HOST=REACT_APP_SOCKET_HOST"
+          --allow-unauthenticated
