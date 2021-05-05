@@ -1,0 +1,39 @@
+.countdown {
+  $font-size: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  color: #98a6e6;
+  font-size: $font-size;
+  z-index: 1;
+  line-height: $font-size;
+
+  animation: countdown-animation 1s normal forwards;
+
+  @keyframes countdown-animation {
+    0%   { transform: scale(1); }
+    50%  { opacity: 1; }
+    80%  { opacity: 0; }
+    100% { transform: scale(4); opacity: 0; }
+  }
+}
+
+.col-4 {
+  background-color: #202c34;
+  text-align: center;
+
+  span {
+    color: #cbd1e1;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 5px 0;
+    display: block;
+  }
+}

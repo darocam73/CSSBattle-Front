@@ -1,0 +1,22 @@
+.battle-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .battle-list-wrapper {
+    background: rgba(#FFF, 1);
+    padding: 10px 30px;
+    width: 50%;
+    border-radius: 3px;
+
+    .item {
+      margin: 25px;
+      font-size: 22px;
+      font-weight: 600;
+      color: #5842d8;
+      display: flex;
+      align-items: center;
+    }
+  }
+}

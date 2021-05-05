@@ -1,0 +1,40 @@
+.wrapper {
+  width: 400px;
+  height: 300px;
+  border: 1px solid black;
+  box-sizing: content-box;
+  position: relative;
+  margin: auto;
+
+  .cover {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .iframe {
+    background: white;
+    outline: 0px;
+    border: none;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .target-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+
+    img {
+      position: absolute;
+      right: 0;
+      width: 400px;
+      height: 300px;
+      background-color: white;
+    }
+  }
+}

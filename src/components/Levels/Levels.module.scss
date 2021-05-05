@@ -1,0 +1,44 @@
+$empty: grey;
+$low: #ff0000;
+$good: #f8fb35;
+$high: #00ff0b;
+
+.badge {
+  cursor: pointer;
+  position: relative;
+  margin: 0 5px;
+  border: 2px solid transparent!important;
+
+  &.empty {
+    background-color: $empty!important;
+  }
+
+  &.low {
+    background-color: $low!important;
+  }
+
+  &.good {
+    background-color: $good!important;
+  }
+
+  &.high {
+    background-color: $high!important;
+  }
+
+  &.active {
+    border-color: #a49ee7!important;
+  }
+
+  .spinner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
+
+  .level-number {
+    margin: 15px 10px;
+    display: block;
+  }
+}

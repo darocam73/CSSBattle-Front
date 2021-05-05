@@ -1,0 +1,16 @@
+.row-wrapper {
+  .col {
+    height: calc(100vh - 200px);
+    overflow: auto;
+  }
+
+  .board {
+    .medal {
+      width: 90px;
+      position: absolute;
+      top: -3px;
+      right: -17px;
+      z-index: 1;
+    }
+  }
+}

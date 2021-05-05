@@ -1,0 +1,20 @@
+.subtitle {
+  display: flex;
+  margin-top: 30px;
+
+  p {
+    color: #cbd1e1;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 5px 0;
+    display: inline-block;
+    margin: 0;
+    margin-right: 15px;
+  }
+
+  hr {
+    border-width: 1px;
+    border-color: #19709f;
+    flex-grow: 1;
+  }
+}

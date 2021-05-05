@@ -1,0 +1,13 @@
+.target-image {
+  text-align: center;
+  width: 400px;
+  height: 300px;
+  border: 1px solid black;
+  box-sizing: content-box;
+  margin: auto;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
