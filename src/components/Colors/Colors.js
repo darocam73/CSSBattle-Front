@@ -7,7 +7,24 @@ const Colors = () => {
   const { currentLevel } = useBattle();
 
   const handleCopyToClipboard = (color) => {
-    navigator.clipboard.writeText(color);
+    // navigator clipboard api needs a secure context (https)
+    if (navigator.clipboard && window.isSecureContext && false) {
+      // navigator clipboard api method
+      return navigator.clipboard.writeText(color);
+    } else {
+      // text area method
+      let textArea = document.createElement("textarea");
+      textArea.value = color;
+      textArea.style.position = 'fixed';
+      textArea.style.opacity = 0;
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      return new Promise((res, rej) => {
+        document.execCommand('copy') ? res() : rej();
+        textArea.remove();
+      });
+    }
   }
 
   const usedColors = useMemo(() => {

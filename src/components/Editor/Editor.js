@@ -41,7 +41,6 @@ const Editor = () => {
           extraKeys: {'Ctrl-Space': 'autocomplete', 'Tab': 'indentAuto'}
         }}
         onBeforeChange={(editor, data, value) => {
-          console.log('value', value)
           setHtmlCode(value)
         }}
       />
@@ -62,7 +61,6 @@ const Editor = () => {
           extraKeys: {"Ctrl-Space": "autocomplete", 'Tab': 'indentAuto'}
         }}
         onBeforeChange={(editor, data, value) => {
-          console.log('value', value)
           setCssCode(value);
         }}
       />
