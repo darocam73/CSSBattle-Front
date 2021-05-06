@@ -40,14 +40,20 @@ const Home = () => {
   }, []);
 
   const getPlayerInfo = useCallback(async () => {
-    try {
-      const { player } = await getPlayer();
-      if (player?.name) {
-        setUsername(player.name);
-      }
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) {
       setIsLoadingPlayer(false);
-    } catch (error) {
-      console.log('no player info', error);
+    } else {
+      try {
+        const { player } = await getPlayer();
+        if (player?.name) {
+          setUsername(player.name);
+        }
+      } catch (error) {
+        console.log('no player info', error);
+      } finally {
+        setIsLoadingPlayer(false);
+      }
     }
   }, [setUsername]);
 

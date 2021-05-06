@@ -3,7 +3,8 @@ name: Build and Deploy to Cloud Run
 on:
   push:
     branches:
-    - master
+    # - master
+    - none
 
 env:
   PROJECT_ID: ${{ secrets.RUN_PROJECT }}
