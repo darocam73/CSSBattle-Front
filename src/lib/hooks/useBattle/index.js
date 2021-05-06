@@ -159,11 +159,15 @@ const BattleProvider = (props) => {
 
   const getLevels = useCallback(async () => {
     if (!state.battleId) return;
-    const { levels, userName } = await getAllLevels(state.battleId);
-    setLevels(levels);
-    setUsername(userName);
-    if (!state.currentLevelId) {
-      setCurrentLevelId(levels[0]?.id);
+    try {
+      const { levels, userName } = await getAllLevels(state.battleId);
+      setLevels(levels);
+      setUsername(userName);
+      if (!state.currentLevelId) {
+        setCurrentLevelId(levels[0]?.id);
+      }
+    } catch (error) {
+      console.log('Error getAllLevels', error);
     }
   }, [setCurrentLevelId, setLevels, setUsername, state.battleId, state.currentLevelId]);
 

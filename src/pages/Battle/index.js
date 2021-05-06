@@ -115,7 +115,9 @@ const Battle = () => {
               <span>Editor</span>
             </div>
             <div className={cn('col-4', styles['col-4'])}>
-              <span>Output</span>
+              <span>
+                Outpu
+              </span>
             </div>
             <div className={cn('col-4', styles['col-4'])}>
               <span>Target</span>

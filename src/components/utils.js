@@ -1,6 +1,6 @@
 export const documentContents = (html, css) => {
   const parseHTMLCode = (code = '') => (
-    code.replace(/(?:\r\n|\r|\n)/g, '').replace(/>(.*?)</g, '><')
+    code.replace(/(?:\r\n|\r|\n)/g, '').replace(/>\s+</g, '><')
   );
 
   return (`
@@ -25,6 +25,7 @@ export const documentContents = (html, css) => {
     <style>
       body {
         overflow: hidden!important;
+        position: relative!importan;
       }
     </style>
     </html>

@@ -16,4 +16,12 @@ const submitSolution = async ({ challengeId, battleId, html, css }) => await fet
   }
 });
 
-export { getMatchingImageValue, submitSolution };
+const downloadImage = async ({ html, css }) => await fetcher({
+  url: 'solution/download',
+  options: {
+    method: 'POST',
+    body: { html, css },
+  }
+});
+
+export { getMatchingImageValue, submitSolution, downloadImage };

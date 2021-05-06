@@ -66,15 +66,22 @@ const Home = () => {
   }, [getPlayerInfo]);
 
   return (
-    <div className="container-fluid mt-1">
+    <div className="container-fluid mt-1 text-center">
       <figure>
         <p className="h1 text-center text-light mt-5">
           Welcome to the
-          <strong className="text-warning"> CSSBattle-ish</strong>
+          <strong className="text-warning"> CSSBattle</strong>
         </p>
-        <p className="h3 text-center text-light mt-5">
-          Please entre your team name, and select the battle you want to join
-        </p>
+        <img
+          src="/ninja-edit.png"
+          alt=""
+          className={styles.image}
+        />
+        {!isLoadingPlayer && (
+          <p className="h3 text-center text-light mt-3 mb-5 d-block">
+            {`Please ${!username ? 'entre your team name, and ' : ''}select the battle you want to join`}
+          </p>
+        )}
       </figure>
       {!isLoadingPlayer && !username && (
         <div className="input-group mt-5 justify-content-center">

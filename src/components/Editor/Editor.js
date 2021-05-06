@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useBattle } from '../../lib/hooks/useBattle';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 import styles from './Editor.module.scss';
@@ -22,7 +23,7 @@ import 'codemirror/addon/fold/foldgutter.css';
 
 const Editor = () => {
   const { htmlCode, cssCode, setHtmlCode, setCssCode } = useBattle();
-
+     
   return (
     <>
       <CodeMirror
@@ -61,6 +62,7 @@ const Editor = () => {
           extraKeys: {"Ctrl-Space": "autocomplete", 'Tab': 'indentAuto'}
         }}
         onBeforeChange={(editor, data, value) => {
+          console.log('data',data)
           setCssCode(value);
         }}
       />

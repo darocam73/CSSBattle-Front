@@ -29,7 +29,7 @@ const Colors = () => {
 
   const usedColors = useMemo(() => {
     if (currentLevel?.colors) {
-      return JSON.parse(currentLevel?.colors);
+      return currentLevel?.colors.split(',');
     }
     return [];
   }, [currentLevel?.colors]);
