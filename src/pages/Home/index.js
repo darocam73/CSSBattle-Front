@@ -23,6 +23,7 @@ const Home = () => {
         const { token } = await createPlayer({ name: teamName });
         if (!token) throw new Error('No token');
         localStorage.setItem(TOKEN_KEY, token);
+        await getPlayerInfo();
       } catch (error) {
         console.error(error);
       }

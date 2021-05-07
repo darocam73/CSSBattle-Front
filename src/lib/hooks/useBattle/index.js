@@ -1,5 +1,4 @@
 import {
-  useEffect,
   createContext,
   useContext,
   useReducer,
@@ -134,7 +133,7 @@ const BattleProvider = (props) => {
   }, []);
 
   const setUsername = useCallback((username) => {
-    dispatch({ type: 'USERNAME', username: unescape(username) })
+    dispatch({ type: 'USERNAME', username: username ? unescape(username) : null })
   }, []);
 
   const setTimer = useCallback((timer) => {
@@ -205,18 +204,6 @@ const BattleProvider = (props) => {
     }
   }, [getLevels, state.battleId, state.cssCode, state.currentLevelId, state.htmlCode]);
 
-  useEffect(() => {
-    if (!state.currentLevelId) {
-      getLevels();
-    }
-  }, [getLevels, state.currentLevelId]);
-
-  useEffect(() => {
-    if (state.currentLevelId) {
-      getLevel(state.currentLevelId);
-    }
-  }, [getLevel, state.currentLevelId]);
-
   return (
     <BattleContext.Provider
       value={{
@@ -233,6 +220,8 @@ const BattleProvider = (props) => {
         setMatchingValue,
         submitCurrentSolution,
         getLevel,
+        getLevels,
+        setLevels,
         setTimer,
         setUsername,
       }}

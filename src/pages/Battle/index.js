@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, useRef } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
 import { useBattle } from '../../lib/hooks/useBattle';
@@ -19,50 +19,62 @@ import styles from './Battle.module.scss';
 const Battle = () => {
   const history = useHistory();
   const { battleId } = useParams();
-  const { setBattleId, setTimer } = useBattle();
+  const {
+    setBattleId,
+    setTimer,
+    setCurrentLevelId,
+    currentLevelId,
+    getLevels,
+    getLevel,
+    setLevels,
+    setCurrentLevel,
+  } = useBattle();
   const [countdownValue, setCountdownValue] = useState([]);
   const [battleStatus, setBattleStatus] = useState();
+  const socket = useRef();
 
   const startBattle = useCallback(() => {
     const token = localStorage.getItem(TOKEN_KEY);
     if (!token) {
       history.push(`/`);
-    } else {
-      setBattleId(battleId);
     }
     setBattleStatus(BATTLE_STATUS.RUNNING);
-  }, [battleId, history, setBattleId]);
+  }, [history]);
 
   const connectToBattleSocket = useCallback(() => {
     if (!battleId) return;
-    const socket = io.connect(process.env.REACT_APP_SOCKET_HOST);
+    socket.current = io.connect(process.env.REACT_APP_SOCKET_HOST);
 
-    socket.on('connect', () => {
+    socket.current.on('connect', () => {
       // console.log(socket.id);
-      socket.emit('join-room', battleId);
+      socket.current.emit('join-room', battleId);
     });
 
-    socket.on('join-room-client', data => {
+    socket.current.on('join-room-client', data => {
       console.log(`Connected to socket room ${data}`);
     });
 
-    socket.on('disconnect', () => {
+    socket.current.on('leave-room-client', data => {
+      console.log(`Unsubscribed from room ${data}`);
+    });
+
+    socket.current.on('disconnect', () => {
       console.log('WebSocket disconected!');
     });
 
-    socket.on('battle-countdown', countdown => {
+    socket.current.on('battle-countdown', countdown => {
       setCountdownValue([countdown]);
       setBattleStatus(undefined);
-      console.log(socket.id, 'starting timer');
+      console.log(socket.current.id, 'starting timer');
     });
 
-    socket.on('battle-timer', (data) => {
+    socket.current.on('battle-timer', (data) => {
       setTimer(data);
       setCountdownValue(undefined);
       startBattle();
     });
 
-    socket.on('battle-finished', () => {
+    socket.current.on('battle-finished', () => {
       setCountdownValue(undefined);
       setBattleStatus(BATTLE_STATUS.FINISHED);
       setTimer(0);
@@ -85,6 +97,17 @@ const Battle = () => {
     }
   }, [battleId, startBattle]);
 
+  const disconnectFromBattleSocket = useCallback(() => {
+    socket.current.emit('disconnect-battle', battleId);
+    setTimer(0);
+  }, [battleId, setTimer]);
+
+  useEffect(() => {
+    if (battleId) {
+      setBattleId(battleId);
+    }
+  }, [battleId, setBattleId]);
+
   useEffect(() => {
     connectToBattleSocket();
   }, [connectToBattleSocket]);
@@ -92,6 +115,25 @@ const Battle = () => {
   useEffect(() => {
     getBattleInfo();
   }, [getBattleInfo]);
+
+  useEffect(() => {
+    getLevels();
+  }, [getLevels]);
+
+  useEffect(() => {
+    if (currentLevelId) {
+      getLevel(currentLevelId);
+    }
+  }, [getLevel, currentLevelId]);
+
+  useEffect(() => {
+    return () => {
+      disconnectFromBattleSocket();
+      setLevels(null);
+      setCurrentLevelId(null);
+      setCurrentLevel(null);
+    }
+  }, [disconnectFromBattleSocket, setCurrentLevel, setCurrentLevelId, setLevels]);
 
   return (
     <div className="container-fluid mt-1">

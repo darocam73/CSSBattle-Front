@@ -2,17 +2,12 @@ import { useState } from 'react';
 import Iframe from './Iframe';
 import Subtitle from '../Subtitle';
 import CodeModal from './CodeModal';
-import styles from './ResultsDetails.module.scss';
 
 const ResultsDetails = ({ scores, onClose }) => {
   const [modalData, setModalData] = useState();
   const getImageUrl = (filename) => (
     `${process.env.REACT_APP_IMAGES_URL}/${filename}`
   );
-
-  const handleGetSolutionCode = (html, css) => {
-    setModalData({ html, css });
-  }
 
   return (
     <>
