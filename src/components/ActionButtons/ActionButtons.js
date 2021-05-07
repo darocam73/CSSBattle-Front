@@ -26,7 +26,7 @@ const ActionButtons = () => {
 
   const handleSubmitCurrentSolution = async () => {
     const matchingValue = await submitCurrentSolution();
-    setMatchingValue(matchingValue);
+    setMatchingValue(`${matchingValue}%`);
     if (matchingValue < 90) {
       setMessage(messages('low'));
     } else if (matchingValue < 97) {
@@ -74,7 +74,7 @@ const ActionButtons = () => {
           <Modal.Title>Solution saved!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h4 className="text-center text-info">Image matching {imageMatching}%</h4>
+          <h4 className="text-center text-info">Image matching {imageMatching}</h4>
           <h5 className="mt-5 text-center">{message}</h5>
         </Modal.Body>
         <Modal.Footer>

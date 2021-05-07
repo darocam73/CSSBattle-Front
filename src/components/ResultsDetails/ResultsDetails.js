@@ -1,11 +1,18 @@
+import { useState } from 'react';
 import Iframe from './Iframe';
 import Subtitle from '../Subtitle';
+import CodeModal from './CodeModal';
 import styles from './ResultsDetails.module.scss';
 
 const ResultsDetails = ({ scores, onClose }) => {
+  const [modalData, setModalData] = useState();
   const getImageUrl = (filename) => (
     `${process.env.REACT_APP_IMAGES_URL}/${filename}`
   );
+
+  const handleGetSolutionCode = (html, css) => {
+    setModalData({ html, css });
+  }
 
   return (
     <>
@@ -34,39 +41,64 @@ const ResultsDetails = ({ scores, onClose }) => {
       }) => (
         <div className="container-fluid mb-5" key={id}>
           <div className="row">
-            <Iframe html={unescape(html)} css={unescape(css)} />
-            <div className={styles['target-image']}>
+            <div class="col">
+              <p className="text-light">Result</p>
+              <Iframe html={unescape(html)} css={unescape(css)} />
+            </div>
+            <div className="col">
+              <p className="text-light">Original</p>
               {image && <img src={getImageUrl(image)} alt="target" />}
             </div>
-            <ul className="list-group mt-2" style={{ width: '400px' }}>
-              <li className="list-group-item d-flex justify-content-between align-items-center">
-                <span>Image matching: <strong>{matching}%</strong></span>
-                <span>{points.matchingPoints || 0}</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center">
-                <span>
-                  HTML length: <strong>{htmlLengthSolution}</strong> characters <small>(max {htmlLength})</small>
-                </span>
-                <span>{points.htmlPoints || 0}</span>
-              </li>
-              <li className="list-group-item d-flex justify-content-between align-items-center">
-                <span>
-                  CSS length: <strong>{cssLengthSolution}</strong> characters <small>(max {cssLength})</small>
-                </span>
-                <span>{points.cssPoints || 0}</span>
-              </li>
-              {points.bonus && (
-                <li className="list-group-item d-flex justify-content-between align-items-center">
-                  Bonus
-                  <span>{points.bonus || 0}</span>
-                </li>
-              )}
-              <li className="list-group-item d-flex justify-content-between align-items-center bg-warning">
-                <strong>Total</strong>
-                <strong><span>{points.total || 0}</span></strong>
-              </li>
-            </ul>
           </div>
+          <div className="row">
+            <div className="col-6">
+              <ul className="list-group mt-2">
+                <li className="list-group-item d-flex justify-content-between align-items-center">
+                  <span>Image matching: <strong>{matching}%</strong></span>
+                  <span>{points.matchingPoints || 0}</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between align-items-center">
+                  <span>
+                    HTML length: <strong>{htmlLengthSolution}</strong> characters <small>(max {htmlLength})</small>
+                  </span>
+                  <span>{points.htmlPoints || 0}</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between align-items-center">
+                  <span>
+                    CSS length: <strong>{cssLengthSolution}</strong> characters <small>(max {cssLength})</small>
+                  </span>
+                  <span>{points.cssPoints || 0}</span>
+                </li>
+                {points.bonus && (
+                  <li className="list-group-item d-flex justify-content-between align-items-center">
+                    Bonus
+                    <span>{points.bonus || 0}</span>
+                  </li>
+                )}
+                <li className="list-group-item d-flex justify-content-between align-items-center bg-warning">
+                  <strong>Total</strong>
+                  <strong><span>{points.total || 0}</span></strong>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <button
+                type="button"
+                className="btn btn-warning btn-md mt-4"
+                onClick={() => setModalData({ html, css })}
+              >
+                View code
+              </button>
+            </div>
+          </div>
+          <CodeModal
+            isOpen={!!modalData}
+            onClose={() => setModalData()}
+            html={modalData?.html}
+            css={modalData?.css}
+          />
         </div>
       ))}
     </>

@@ -33,6 +33,9 @@ const Levels = () => {
           )}
           onClick={() => setCurrentLevelId(id)}
         >
+          {matching === 100 && (
+            <img src="/star.svg" alt="" className={styles.image} />
+          )}
           {isLoadingLevel && currentLevelId === id && (
             <Spinner animation="grow" className={styles.spinner} variant="light"/>
           )}

@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { useBattle } from '../../lib/hooks/useBattle';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 import styles from './Editor.module.scss';
@@ -26,6 +25,7 @@ const Editor = () => {
      
   return (
     <>
+      <span className={styles['editor-title']}>HTML</span>
       <CodeMirror
         className={styles['code-editor']}
         value={htmlCode}
@@ -45,7 +45,7 @@ const Editor = () => {
           setHtmlCode(value)
         }}
       />
-      <p>CSS</p>
+      <span className={styles['editor-title']}>CSS</span>
       <CodeMirror
         className={styles['code-editor']}
         value={cssCode}
@@ -62,7 +62,6 @@ const Editor = () => {
           extraKeys: {"Ctrl-Space": "autocomplete", 'Tab': 'indentAuto'}
         }}
         onBeforeChange={(editor, data, value) => {
-          console.log('data',data)
           setCssCode(value);
         }}
       />

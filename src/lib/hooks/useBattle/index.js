@@ -152,7 +152,9 @@ const BattleProvider = (props) => {
     setHtmlCode(level.html || level.initialHtml || '');
     setCssCode(level.css || level.initialCss || '');
     if (typeof level.matching === 'number') {
-      setMatchingValue(level.matching);
+      setMatchingValue(`${level.matching}%`);
+    } else {
+      setMatchingValue('No checked yet...');
     }
     seiIsLoadingLevel(false);
   }, [seiIsLoadingLevel, setCssCode, setCurrentLevel, setHtmlCode, setMatchingValue]);

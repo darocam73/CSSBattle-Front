@@ -1,7 +1,7 @@
 $empty: grey;
 $low: #ff0000;
 $good: #f8fb35;
-$high: #00ff0b;
+$high: #02cb0c;
 
 .badge {
   cursor: pointer;
@@ -26,7 +26,7 @@ $high: #00ff0b;
   }
 
   &.active {
-    border-color: #a49ee7!important;
+    border-color: #ffffff!important;
   }
 
   .spinner {
@@ -40,5 +40,12 @@ $high: #00ff0b;
   .level-number {
     margin: 15px 10px;
     display: block;
+  }
+
+  .image {
+    position: absolute;
+    width: 30px;
+    top: -5px;
+    right: -5px;
   }
 }
